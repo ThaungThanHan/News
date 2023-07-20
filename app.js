@@ -12,7 +12,6 @@ const JWT_SECRET = "KJHHSIHSF%TN$%#@%>g?rg>ggtrkgIRJGPOHAPIUDFJJTe>r$%#$%)3$t>et
 
 
 const mongoUrl="mongodb+srv://arjunsharmarke99:arjun99@cluster0.3b2sp0s.mongodb.net/?retryWrites=true&w=majority"
-
 mongoose.connect(mongoUrl,{
     useNewUrlParser: true,
 })
@@ -63,12 +62,12 @@ const encryptpassword = await bcrypt.hash(password, 10);
 app.post("/loginuser", async(req, res)=>{
     const { email , password} = req.body;
 
-    const user = await user.findOne ({email});
+    const loginUser = await user.findOne ({email});
 
-    if(!user){
+    if(!loginUser){
         return  res.send({ error: " user not found"});
       }
-    if (await bcrypt.compare(password, user.password)){
+    if (await bcrypt.compare(password, loginUser.password)){
         const token=jwt.sign({}, JWT_SECRET);
         if(res.status(201)){
             return res.json({status:"ok", data: token})
